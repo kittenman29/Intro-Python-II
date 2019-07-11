@@ -15,11 +15,14 @@ class Room:
               \n----------------------------------
               \n{self.title}
               \n   {self.description}\n
-              \n   {self._get_item_string()}
-              \n   {self._get_exits_string()}"""
+              \n   {self._get_item_string()}\n
+              {self._get_exits_string()}"""
         return str
     def _get_item_string(self):
-        return ", ".join([item.name for item in self.items])
+        if len(self.items) > 0:
+            return "\n" + ", ".join([item.name for item in self.items]) + "\n"
+        else:
+            return ""
     def _get_exits_string(self):
         exits = []
         if self.n_to is not None:
@@ -30,4 +33,4 @@ class Room:
             exits.append("e")
         if self.w_to is not None:
             exits.append("w")
-        return 
+        return "Exits: " + ", ".join(exits)

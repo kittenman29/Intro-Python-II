@@ -1,6 +1,6 @@
 from room import Room
 from player import Player
-from item import Item
+from item import Item, Food
 
 # Declare all the rooms
 
@@ -36,79 +36,16 @@ room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
 
-player = Player("Will", room['outside'])
-
-#
-# Main
-#
-
-# Make a new player object that is currently in the 'outside' room.
-
-
-# Write a loop that:
-#
-# * Prints the current room name
-# * Prints the current description (the textwrap module might be useful here).
-# * Waits for user input and decides what to do.
-#
-# If the user enters a cardinal direction, attempt to move to the room there.
-# Print an error message if the movement isn't allowed.
-#
-# If the user enters "q", quit the game.
-
-# def print_room(room):
-#     current_room = player.current_room
-#     print(f"\n-------------------------------")
-#     print(f"{room.title}")
-#     print(f"\n  {room.description}\n")
-
-# current_room = player.current_room
-# print_room(current_room)
-
-# while True:
-#     # Print the current room title and description
-#     current_room = player.current_room
-#     # Wait for user input
-#     cmd = input("-> ")
-#     #parse user inputs (n, s, e, w, q)
-#     if cmd == "n":
-#         if current_room.n_to is not None:
-#             player.current_room = current_room.n_to
-#             print_room(player.current_room)
-#         else:
-#             print("You cannot go that way")
-#     elif cmd == "s":
-#         if current_room.s_to is not None:
-#             player.current_room = current_room.s_to
-#             print_room(player.current_room)
-#         else:
-#             print("You cannot go that way")
-#     elif cmd == "w":
-#         if current_room.w_to is not None:
-#             player.current_room = current_room.w_to
-#             print_room(player.current_room)
-#         else:
-#             print("You cannot go that way")
-#     elif cmd == "e":
-#         if current_room.e_to is not None:
-#             player.current_room = current_room.e_to
-#             print_room(player.current_room)
-#         else:
-#             print("You cannot go that way")
-#     elif cmd == "q":
-#         print("Goodbye")
-#         break
-#     else:
-#         print("Not a valid command")
-#     # If input is valid, move the player and loop
-
-
+player = Player("Brady", room['outside'])
 
 rock = Item("Rock", "This is a rock.")
-pencil = Item("Pencil", "this is a Pencil.")
-sandwich = Item("Sandwich", "This is a delicious sandwich")
+pencil = Item("Pencil", "This is a Pencil.")
+sandwich = Food("Sandwich", "This is a delicious sandwich", 100)
 
-player = Player("Brady", room['outside'])
+
+player.items.append(pencil)
+room['outside'].items.append(rock)
+player.items.append(sandwich)
 
 
 current_room = player.current_room
@@ -124,8 +61,14 @@ while True:
     if cmd in valid_directions:
         # If input is valid, move the player and loop
         player.travel(cmd)
+    elif cmd == "i":
+        player.print_inventory()
     elif cmd == "q":
         print("Goodbye!")
         exit()
+    elif cmd == "eat":
+        player.eat("sandwich")
+    elif cmd == "eat pencil":
+        player.eat("pencil")
     else:
         print("I did not recognize that command")
